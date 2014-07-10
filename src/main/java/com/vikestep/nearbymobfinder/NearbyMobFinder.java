@@ -1,6 +1,8 @@
 package com.vikestep.nearbymobfinder;
 
+import com.nabijaczleweli.nearbymobfinder.items.ItemEntityMobScanner;
 import com.vikestep.nearbymobfinder.proxy.IProxy;
+import com.vikestep.nearbymobfinder.reference.Container;
 import com.vikestep.nearbymobfinder.reference.Reference;
 import com.vikestep.nearbymobfinder.reference.Settings;
 import cpw.mods.fml.common.Mod;
@@ -21,6 +23,8 @@ public class NearbyMobFinder {
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		Container.mobScanner = new ItemEntityMobScanner();
+
 		Settings.config = new Configuration(event.getSuggestedConfigurationFile());
 		Settings.showMobsAtAnyTimeOfDay = Settings.config.get("Client-side", "showMobsAllTime", false).getBoolean(false);
 		if(Settings.config.hasChanged())
@@ -30,5 +34,12 @@ public class NearbyMobFinder {
 
 		proxy.registerEventHandlers();
 		proxy.registerKeyBindings();
+		proxy.registerItemsAndBlocks();
+	}
+
+	@SuppressWarnings("unused")
+	@Mod.EventHandler
+	public void init(FMLPreInitializationEvent event) {
+
 	}
 }
