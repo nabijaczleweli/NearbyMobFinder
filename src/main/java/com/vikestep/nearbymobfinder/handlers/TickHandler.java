@@ -20,10 +20,7 @@ public class TickHandler
             return;
         if (nearbyMobList != null)
         {
-            int size = nearbyMobList.size();
-            for (int i = 0; i < size; i++)
-            {
-                EntityMob mobFound = nearbyMobList.get(i);
+            for(EntityMob mobFound : nearbyMobList) {
                 String CHAT_MESSAGE = mobFound.func_145748_c_().getFormattedText() + ": " + Math.floor(mobFound.posX) + ", " + Math.floor(mobFound.posY) + ", " + Math.floor(mobFound.posZ);
                 ChatComponentText component = new ChatComponentText(CHAT_MESSAGE);
                 playerAttemptingToSleep.addChatComponentMessage(component);
