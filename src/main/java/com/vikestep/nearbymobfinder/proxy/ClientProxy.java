@@ -1,6 +1,5 @@
 package com.vikestep.nearbymobfinder.proxy;
 
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
 
 }
