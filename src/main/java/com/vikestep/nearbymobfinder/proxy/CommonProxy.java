@@ -1,7 +1,7 @@
 package com.vikestep.nearbymobfinder.proxy;
 
+import com.nabijaczleweli.nearbymobfinder.handlers.TickHandler;
 import com.vikestep.nearbymobfinder.handlers.PlayerBedEventHandler;
-import com.vikestep.nearbymobfinder.handlers.TickHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
