@@ -3,6 +3,8 @@ package com.vikestep.nearbymobfinder.handlers;
 import com.vikestep.nearbymobfinder.reference.Settings;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,5 +38,14 @@ public class PlayerBedEventHandler {
 		if(event.entityPlayer instanceof EntityClientPlayerMP)
 			return;
 		setupTickHandler(event.x, event.y, event.z, event.entityPlayer);
+	}
+
+	@SuppressWarnings("unused")
+	@SubscribeEvent
+	public void onPlayerPressSearchEvent(InputEvent.KeyInputEvent event) {
+		if(Settings.checkMobs.isPressed()) {
+			final EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+			setupTickHandler((int)Math.floor(player.posX), (int)Math.floor(player.posY), (int)Math.floor(player.posZ), player);
+		}
 	}
 }

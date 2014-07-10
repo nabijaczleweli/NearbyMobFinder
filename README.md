@@ -8,7 +8,10 @@ Currently does this by putting the co-ordinates of the mobs in the minecraft cha
 
 Future Planned Features
 -----------------------
-- Ability to find nearby mobs at any time of day (disabled by default in config)
 - A better way of showing nearby mobs
+
+Past Planned Features
+-----------------------
+- Ability to find nearby mobs at any time of day (disabled by default in config)
 
 ![Screenshot](http://i.imgur.com/tcjjeFy.png)
