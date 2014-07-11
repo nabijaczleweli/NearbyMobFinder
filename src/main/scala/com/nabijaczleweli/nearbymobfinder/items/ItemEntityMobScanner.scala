@@ -12,6 +12,8 @@ class ItemEntityMobScanner private (`_ _ _ _ _ _ _ _ _`: () => Unit) extends Ite
 		setTextureName(Reference.MOD_ID.toLowerCase + ":entitymobscanner")
 		setNoRepair()
 		setMaxStackSize(1)
-		setMaxDamage(1000)
 	}
+
+	override def getMaxDamage =
+		1000
 }
