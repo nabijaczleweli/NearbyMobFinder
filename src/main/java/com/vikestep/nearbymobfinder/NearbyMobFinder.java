@@ -1,7 +1,6 @@
 package com.vikestep.nearbymobfinder;
 
 import com.nabijaczleweli.nearbymobfinder.blocks.BlockLiquidCrystalFluid;
-import com.nabijaczleweli.nearbymobfinder.creativetabs.CreativeTabNearbyMobFinder$;
 import com.nabijaczleweli.nearbymobfinder.items.ItemEntityMobScanner;
 import com.nabijaczleweli.nearbymobfinder.items.ItemPCB;
 import com.vikestep.nearbymobfinder.proxy.IProxy;
@@ -10,9 +9,9 @@ import com.vikestep.nearbymobfinder.reference.Reference;
 import com.vikestep.nearbymobfinder.reference.Settings;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import org.lwjgl.input.Keyboard;
@@ -29,7 +28,7 @@ public class NearbyMobFinder {
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		Container.liquidCrystalF = new Fluid("liquidcrystal").setLuminosity(13).setDensity(10000);
+		Container.liquidCrystalF = new Fluid("liquidcrystal").setLuminosity(13).setViscosity(Integer.MAX_VALUE);
 
 		proxy.registerFluids();
 
@@ -50,12 +49,10 @@ public class NearbyMobFinder {
 		Settings.checkMobs = new KeyBinding("Check mobs preventing sleeping", Keyboard.KEY_M, "key.categories.misc");
 
 		proxy.registerKeyBindings();
-
-		Blocks.water.setCreativeTab(CreativeTabNearbyMobFinder$.MODULE$);
 	}
 
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
-	public void init(FMLPreInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
 	}
 }

@@ -1,15 +1,15 @@
 package com.nabijaczleweli.nearbymobfinder.blocks
 
-import net.minecraftforge.fluids.BlockFluidClassic
+import net.minecraftforge.fluids.{BlockFluidFinite, BlockFluidClassic}
 import com.vikestep.nearbymobfinder.reference.{Reference, Container}
-import net.minecraft.block.material.{MapColor, MaterialLiquid}
+import net.minecraft.block.material.{Material, MapColor, MaterialLiquid}
 import com.nabijaczleweli.nearbymobfinder.creativetabs.CreativeTabNearbyMobFinder
 import net.minecraft.util.IIcon
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.world.{World, IBlockAccess}
 
-class BlockLiquidCrystalFluid private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends BlockFluidClassic(Container.liquidCrystalF, new MaterialLiquid(MapColor.waterColor)) {
+class BlockLiquidCrystalFluid private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends BlockFluidFinite(Container.liquidCrystalF, Material.water) {
 	def this() {
 		this(() => {})
 		setCreativeTab(CreativeTabNearbyMobFinder)
@@ -21,7 +21,7 @@ class BlockLiquidCrystalFluid private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends B
 		else
 			BlockLiquidCrystalFluid.flowingIcon
 
-	override def registerBlockIcons(register : IIconRegister) {
+	override def registerBlockIcons(register: IIconRegister) {
 		BlockLiquidCrystalFluid.stillIcon = register registerIcon Reference.MOD_ID.toLowerCase + ":liquidcrystal_still"
 		BlockLiquidCrystalFluid.flowingIcon = register registerIcon Reference.MOD_ID.toLowerCase + ":liquidcrystal_flow"
 	}
