@@ -3,6 +3,8 @@ package com.vikestep.nearbymobfinder;
 import com.nabijaczleweli.nearbymobfinder.blocks.BlockLiquidCrystalFluid;
 import com.nabijaczleweli.nearbymobfinder.items.ItemEntityMobScanner;
 import com.nabijaczleweli.nearbymobfinder.items.ItemPCB;
+import com.nabijaczleweli.nearbymobfinder.worldgen.WorldGenLiquidCrystal;
+import com.nabijaczleweli.nearbymobfinder.worldgen.WorldGenLiquidCrystal$;
 import com.vikestep.nearbymobfinder.proxy.IProxy;
 import com.vikestep.nearbymobfinder.reference.Container;
 import com.vikestep.nearbymobfinder.reference.Reference;
@@ -11,6 +13,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.Fluid;
@@ -40,7 +44,13 @@ public class NearbyMobFinder {
 		proxy.registerItemsAndBlocks();
 
 		Settings.config = new Configuration(event.getSuggestedConfigurationFile());
-		Settings.showMobsAtAnyTimeOfDay = Settings.config.get("Client-side", "showMobsAllTime", false).getBoolean(false);
+		if(event.getSide() == Side.CLIENT) {
+			Settings.showMobsAtAnyTimeOfDay = Settings.config.get("Client-side", "showMobsAllTime", false).getBoolean(false);
+		}
+		WorldGenLiquidCrystal.setBaseGenerationLevel(Settings.config.get("World generation", "baseGenLiquidCrystalLvl", 30).getInt(30));
+		WorldGenLiquidCrystal.setBigVeinProbability(Settings.config.get("World generation", "propGenLiquidCrystalBigVein", 300).getInt(300));
+		WorldGenLiquidCrystal.setOffLevelMax(Settings.config.get("World generation", "deviationGenLiquidCrystalMax", 3).getInt(3));
+		WorldGenLiquidCrystal.setTreshold(Settings.config.get("World generation", "chunkGenLiquidCrystalTreshold", 300).getInt(300));
 		if(Settings.config.hasChanged())
 			Settings.config.save();
 
@@ -54,5 +64,6 @@ public class NearbyMobFinder {
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
+		GameRegistry.registerWorldGenerator(WorldGenLiquidCrystal$.MODULE$, 1);
 	}
 }
