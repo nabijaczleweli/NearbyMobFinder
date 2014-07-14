@@ -3,6 +3,7 @@ package com.vikestep.nearbymobfinder;
 import com.nabijaczleweli.nearbymobfinder.blocks.BlockLiquidCrystalFluid;
 import com.nabijaczleweli.nearbymobfinder.items.ItemEntityMobScanner;
 import com.nabijaczleweli.nearbymobfinder.items.ItemPCB;
+import com.nabijaczleweli.nearbymobfinder.items.ItemScoop;
 import com.nabijaczleweli.nearbymobfinder.worldgen.WorldGenLiquidCrystal;
 import com.nabijaczleweli.nearbymobfinder.worldgen.WorldGenLiquidCrystal$;
 import com.vikestep.nearbymobfinder.proxy.IProxy;
@@ -16,6 +17,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.Fluid;
 import org.lwjgl.input.Keyboard;
@@ -38,8 +40,11 @@ public class NearbyMobFinder {
 
 		Container.mobScanner = new ItemEntityMobScanner();
 		Container.pcb = new ItemPCB();
+		Container.scoopEmpty = new ItemScoop(Blocks.air);
 
 		Container.liquidCrystalB = new BlockLiquidCrystalFluid();
+
+		Container.scoopLiquidCrystal = new ItemScoop(Container.liquidCrystalB);
 
 		proxy.registerItemsAndBlocks();
 
@@ -65,5 +70,7 @@ public class NearbyMobFinder {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		GameRegistry.registerWorldGenerator(WorldGenLiquidCrystal$.MODULE$, 1);
+
+
 	}
 }

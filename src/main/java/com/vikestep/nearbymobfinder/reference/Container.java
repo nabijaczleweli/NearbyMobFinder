@@ -3,11 +3,14 @@ package com.vikestep.nearbymobfinder.reference;
 import com.nabijaczleweli.nearbymobfinder.blocks.BlockLiquidCrystalFluid;
 import com.nabijaczleweli.nearbymobfinder.items.ItemEntityMobScanner;
 import com.nabijaczleweli.nearbymobfinder.items.ItemPCB;
+import com.nabijaczleweli.nearbymobfinder.items.ItemScoop;
 import net.minecraftforge.fluids.Fluid;
 
 public class Container {
 	public static ItemEntityMobScanner mobScanner;
 	public static ItemPCB              pcb;
+	public static ItemScoop            scoopEmpty;
+	public static ItemScoop            scoopLiquidCrystal;
 
 	public static Fluid liquidCrystalF;
 
