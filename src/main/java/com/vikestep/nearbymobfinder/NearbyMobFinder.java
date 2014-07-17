@@ -52,10 +52,10 @@ public class NearbyMobFinder {
 		if(event.getSide() == Side.CLIENT) {
 			Settings.showMobsAtAnyTimeOfDay = Settings.config.get("Client-side", "showMobsAllTime", false).getBoolean(false);
 		}
-		WorldGenLiquidCrystal.setBaseGenerationLevel(Settings.config.get("World generation", "baseGenLiquidCrystalLvl", 30).getInt(30));
-		WorldGenLiquidCrystal.setBigVeinProbability(Settings.config.get("World generation", "propGenLiquidCrystalBigVein", 300).getInt(300));
-		WorldGenLiquidCrystal.setOffLevelMax(Settings.config.get("World generation", "deviationGenLiquidCrystalMax", 3).getInt(3));
-		WorldGenLiquidCrystal.setTreshold(Settings.config.get("World generation", "chunkGenLiquidCrystalTreshold", 300).getInt(300));
+		WorldGenLiquidCrystal.setBaseGenerationLevel(Settings.config.get("World generation", "baseGenLiquidCrystalLvl", 30, "Base level of generation; 2..60; default: 30", 2, 60).getInt());
+		WorldGenLiquidCrystal.setBigVeinProbability(Settings.config.get("World generation", "propGenLiquidCrystalBigVein", 300, String.format("Probability of generating a big vein (1/x); 0..%d; default: 300", Integer.MAX_VALUE), 0, Integer.MAX_VALUE).getInt());
+		WorldGenLiquidCrystal.setOffLevelMax(Settings.config.get("World generation", "deviationGenLiquidCrystalMax", 3, "Maximal deviation of level of generation; 0..50; default: 3", 0, 50).getInt());
+		WorldGenLiquidCrystal.setTreshold(Settings.config.get("World generation", "chunkGenLiquidCrystalTreshold", 300, "Amount of chunks of which generation will happen (1/x); 1..500; default: 300").getInt());
 		if(Settings.config.hasChanged())
 			Settings.config.save();
 
