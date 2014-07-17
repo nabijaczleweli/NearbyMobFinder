@@ -47,7 +47,9 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 		val mop = getMovingObjectPositionFromPlayer(world, player, contains == Blocks.air)
 		if(mop == null)
 			return is
-		val matchItemStack =
+		if(player.capabilities.isCreativeMode)
+			is
+		else
 			mop.typeOfHit match {
 				case MovingObjectPosition.MovingObjectType.MISS | MovingObjectPosition.MovingObjectType.ENTITY =>
 					is
@@ -66,9 +68,5 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 							resultItemStack
 					}
 			}
-		if(player.capabilities.isCreativeMode)
-			is
-		else
-			matchItemStack
 	}
 }

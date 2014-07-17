@@ -22,16 +22,16 @@ public class CommonProxy implements IProxy {
 	@Override
 	public void registerKeyBindings() {}
 
-	protected static void registerItem(Item item) {
+	protected static void defaultRegisterItem(Item item) {
 		GameRegistry.registerItem(item, item.getUnlocalizedName(), Reference.MOD_ID);
 	}
 
 	@Override
 	final public void registerItemsAndBlocks() {
-		registerItem(Container.mobScanner);
-		registerItem(Container.pcb);
-		registerItem(Container.scoopEmpty);
-		registerItem(Container.scoopLiquidCrystal);
+		defaultRegisterItem(Container.mobScanner);
+		defaultRegisterItem(Container.pcb);
+		defaultRegisterItem(Container.scoopEmpty);
+		defaultRegisterItem(Container.scoopLiquidCrystal);
 
 		GameRegistry.registerBlock(Container.liquidCrystalB, Container.liquidCrystalB.getUnlocalizedName());
 
