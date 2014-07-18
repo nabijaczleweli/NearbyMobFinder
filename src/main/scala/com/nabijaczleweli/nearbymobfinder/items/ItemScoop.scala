@@ -11,29 +11,28 @@ import cpw.mods.fml.relauncher.{SideOnly, Side}
 import net.minecraft.world.World
 import net.minecraft.entity.player.EntityPlayer
 import com.nabijaczleweli.nearbymobfinder.handlers.ScoopHandler
+import com.nabijaczleweli.nearbymobfinder.render.ItemRendererScoop
+import com.vikestep.nearbymobfinder.proxy.ClientProxy
 
 class ItemScoop(val contains: Block) extends ItemBucket(contains) {
-	var empty: IIcon = null
-	var full: IIcon = null
+	var icon: IIcon = null
 
 	setUnlocalizedName(s"scoop${if(contains == Blocks.air) "Empty" else contains.getUnlocalizedName substring 4}")
 	setCreativeTab(CreativeTabNearbyMobFinder)
 	setMaxStackSize(1)
 	if(contains != Blocks.air)
-		setContainerItem(Container.scoopEmpty)  // This requires empty scoop to be created before any others!
+	setContainerItem(Container.scoopEmpty)  // This requires empty scoop to be created before any others!
+
+	ClientProxy.scoopRender enqueue this
 
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(ir: IIconRegister) {
-		empty = ir registerIcon Reference.MOD_ID + ":emptyscoop"
-		full = ir registerIcon Reference.MOD_ID + ":fullscoop"
+		icon = ir registerIcon Reference.MOD_ID + (if(contains == Blocks.air) ":emptyscoop" else ":fullscoop")
 	}
 
 	@SideOnly(Side.CLIENT)
 	override def getIcon(stack: ItemStack, pass: Int) =
-		if(contains == Blocks.air)
-			empty
-		else
-			full
+		icon
 
 	override def getItemStackDisplayName(is: ItemStack) =
 		if(contains == Blocks.air)
@@ -69,4 +68,7 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 					}
 			}
 	}
+
+	override def getMaxDamage =
+		0
 }

@@ -43,4 +43,7 @@ public class CommonProxy implements IProxy {
 	final public void registerFluids() {
 		FluidRegistry.registerFluid(Container.liquidCrystalF);
 	}
+
+	@Override
+	public void registerRenderers() {}
 }

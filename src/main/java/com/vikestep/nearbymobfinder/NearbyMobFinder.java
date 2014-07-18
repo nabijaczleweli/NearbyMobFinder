@@ -50,7 +50,7 @@ public class NearbyMobFinder {
 
 		Settings.config = new Configuration(event.getSuggestedConfigurationFile());
 		if(event.getSide() == Side.CLIENT) {
-			Settings.showMobsAtAnyTimeOfDay = Settings.config.get("Client-side", "showMobsAllTime", false).getBoolean(false);
+			Settings.showMobsAtAnyTimeOfDay = Settings.config.get("Client-side", "showMobsAllTime", false).getBoolean();
 		}
 		WorldGenLiquidCrystal.setBaseGenerationLevel(Settings.config.get("World generation", "baseGenLiquidCrystalLvl", 30, "Base level of generation; 2..60; default: 30", 2, 60).getInt());
 		WorldGenLiquidCrystal.setBigVeinProbability(Settings.config.get("World generation", "propGenLiquidCrystalBigVein", 300, String.format("Probability of generating a big vein (1/x); 0..%d; default: 300", Integer.MAX_VALUE), 0, Integer.MAX_VALUE).getInt());
@@ -71,6 +71,6 @@ public class NearbyMobFinder {
 	public void init(FMLInitializationEvent event) {
 		GameRegistry.registerWorldGenerator(WorldGenLiquidCrystal$.MODULE$, 1);
 
-
+		proxy.registerRenderers();
 	}
 }

@@ -9,24 +9,21 @@ import cpw.mods.fml.relauncher.{SideOnly, Side}
 import net.minecraft.client.renderer.texture.IIconRegister
 import com.vikestep.nearbymobfinder.reference.Reference
 
-class ItemPCB private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends Item {
-	def this() {
-	this(() => {})
+class ItemPCB extends Item {
 	setUnlocalizedName("PCB")
 	setCreativeTab(CreativeTabNearbyMobFinder)
 	setHasSubtypes(true)
-}
 
 	override def getMaxDamage =
 		0
 
 	@SideOnly(Side.CLIENT)
 	override def getIconFromDamage(idx: Int) =
-		ItemPCB icons MathHelper.clamp_int(idx, 0, 15)
+		ItemPCB icons MathHelper.clamp_int(idx, 0, ItemPCB.subIconNames.length - 1)
 
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(ir: IIconRegister) {
-		for(i <- 0 to 1)
+		for(i <- 0 until ItemPCB.icons.length)
 			ItemPCB icons i = ir registerIcon Reference.MOD_ID + ":" + String.format(ItemPCB.subIconNames(i), "pcb_")
 	}
 
@@ -35,14 +32,15 @@ class ItemPCB private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends Item {
 
 	@SideOnly(Side.CLIENT)
 	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) {
-		for(i <- 0 to 1)
-			list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
+		if(item.isInstanceOf[ItemPCB])
+			for(i <- 0 until ItemPCB.icons.length)
+				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
 	}
 }
 
 private object ItemPCB {
+	val subIconNames = Array[String]("%selements", "%snoelements", "%slcd", "lcd")
+	val subDisplayName = Array[String]("%s with elements", "%s without elements", "%s with LCD", "LCD")
 	@SideOnly(Side.CLIENT)
-	val icons = new Array[IIcon](2)
-	val subIconNames = Array[String]("%selements", "%snoelements")
-	val subDisplayName = Array[String]("%s with elements", "%s without elements")
+	val icons = new Array[IIcon](subIconNames.length)
 }

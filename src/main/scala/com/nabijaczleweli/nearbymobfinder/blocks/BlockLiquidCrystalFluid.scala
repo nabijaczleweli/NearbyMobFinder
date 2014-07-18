@@ -9,11 +9,8 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.world.{World, IBlockAccess}
 
-class BlockLiquidCrystalFluid private(`_ _ _ _ _ _ _ _ _`: () => Unit) extends BlockFluidFinite(Container.liquidCrystalF, Material.water) {
-	def this() {
-		this(() => {})
-		setCreativeTab(CreativeTabNearbyMobFinder)
-	}
+class BlockLiquidCrystalFluid extends BlockFluidFinite(Container.liquidCrystalF, Material.water) {
+	setCreativeTab(CreativeTabNearbyMobFinder)
 
 	override def getIcon(side: Int, meta: Int) =
 		if(side == 0 || side == 1)
