@@ -21,7 +21,9 @@ object ItemRendererScoop extends IItemRenderer {
 		val icon = item.getItem.asInstanceOf[ItemScoop].icon
 		`type` match {
 			case INVENTORY =>
+				glEnable(GL_BLEND)
 				RenderItem.getInstance.renderIcon(0, 0, icon, icon.getIconWidth, icon.getIconHeight)
+				glDisable(GL_BLEND)
 			case ENTITY =>
 				glTranslated(-.5, 0, 0)
 				ItemRenderer.renderItemIn2D(Tessellator.instance, icon.getMaxU, icon.getMinV, icon.getMinU, icon.getMaxV, icon.getIconWidth, icon.getIconHeight, .065f)
