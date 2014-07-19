@@ -1,10 +1,5 @@
 package com.vikestep.nearbymobfinder;
 
-import com.nabijaczleweli.nearbymobfinder.blocks.BlockLiquidCrystalFluid;
-import com.nabijaczleweli.nearbymobfinder.items.ItemEntityMobScanner;
-import com.nabijaczleweli.nearbymobfinder.items.ItemPCB;
-import com.nabijaczleweli.nearbymobfinder.items.ItemScoop;
-import com.nabijaczleweli.nearbymobfinder.worldgen.WorldGenLiquidCrystal;
 import com.nabijaczleweli.nearbymobfinder.worldgen.WorldGenLiquidCrystal$;
 import com.vikestep.nearbymobfinder.proxy.IProxy;
 import com.vikestep.nearbymobfinder.reference.Container;
@@ -15,12 +10,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.init.Blocks;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fluids.Fluid;
-import org.lwjgl.input.Keyboard;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
 public class NearbyMobFinder {
@@ -34,35 +23,16 @@ public class NearbyMobFinder {
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		Container.liquidCrystalF = new Fluid("liquidcrystal").setLuminosity(13).setViscosity(Integer.MAX_VALUE);
-
+		Container.createFluids();
 		proxy.registerFluids();
 
-		Container.mobScanner = new ItemEntityMobScanner();
-		Container.pcb = new ItemPCB();
-		Container.scoopEmpty = new ItemScoop(Blocks.air);
-
-		Container.liquidCrystalB = new BlockLiquidCrystalFluid();
-
-		Container.scoopLiquidCrystal = new ItemScoop(Container.liquidCrystalB);
-
+		Container.createItemsAndBlocks();
 		proxy.registerItemsAndBlocks();
 
-		Settings.config = new Configuration(event.getSuggestedConfigurationFile());
-		if(event.getSide() == Side.CLIENT) {
-			Settings.showMobsAtAnyTimeOfDay = Settings.config.get("Client-side", "showMobsAllTime", false).getBoolean();
-		}
-		WorldGenLiquidCrystal.setBaseGenerationLevel(Settings.config.get("World generation", "baseGenLiquidCrystalLvl", 30, "Base level of generation; 2..60; default: 30", 2, 60).getInt());
-		WorldGenLiquidCrystal.setBigVeinProbability(Settings.config.get("World generation", "propGenLiquidCrystalBigVein", 300, String.format("Probability of generating a big vein (1/x); 0..%d; default: 300", Integer.MAX_VALUE), 0, Integer.MAX_VALUE).getInt());
-		WorldGenLiquidCrystal.setOffLevelMax(Settings.config.get("World generation", "deviationGenLiquidCrystalMax", 3, "Maximal deviation of level of generation; 0..50; default: 3", 0, 50).getInt());
-		WorldGenLiquidCrystal.setTreshold(Settings.config.get("World generation", "chunkGenLiquidCrystalTreshold", 300, "Amount of chunks of which generation will happen (1/x); 1..500; default: 300").getInt());
-		if(Settings.config.hasChanged())
-			Settings.config.save();
-
+		Settings.loadConfig(event.getSuggestedConfigurationFile(), event.getSide());
 		proxy.registerEventHandlers();
 
-		Settings.checkMobs = new KeyBinding("Check mobs preventing sleeping", Keyboard.KEY_M, "key.categories.misc");
-
+		Settings.createKeyBindings();
 		proxy.registerKeyBindings();
 	}
 
