@@ -11,13 +11,13 @@ import cpw.mods.fml.relauncher.{SideOnly, Side}
 import net.minecraft.world.World
 import net.minecraft.entity.player.EntityPlayer
 import com.nabijaczleweli.nearbymobfinder.handlers.ScoopHandler
-import com.nabijaczleweli.nearbymobfinder.render.ItemRendererScoop
 import com.vikestep.nearbymobfinder.proxy.ClientProxy
 
 class ItemScoop(val contains: Block) extends ItemBucket(contains) {
+	val empty = contains == Blocks.air
 	var icon: IIcon = null
 
-	setUnlocalizedName(s"scoop${if(contains == Blocks.air) "Empty" else contains.getUnlocalizedName substring 4}")
+	setUnlocalizedName(s"scoop${if(empty) "Empty" else contains.getUnlocalizedName substring 4}")
 	setCreativeTab(CreativeTabNearbyMobFinder)
 	setMaxStackSize(1)
 	if(contains != Blocks.air)
@@ -27,7 +27,7 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(ir: IIconRegister) {
-		icon = ir registerIcon Reference.MOD_ID + (if(contains == Blocks.air) ":emptyscoop" else ":fullscoop")
+		icon = ir registerIcon Reference.MOD_ID + (if(empty) ":emptyscoop" else ":fullscoop")
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -35,7 +35,7 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 		icon
 
 	override def getItemStackDisplayName(is: ItemStack) =
-		if(contains == Blocks.air)
+		if(empty)
 			"Empty scoop"
 		else {
 			val bi = Item getItemFromBlock contains
@@ -43,17 +43,15 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 		}
 
 	override def onItemRightClick(is: ItemStack, world: World, player: EntityPlayer): ItemStack = {
-		val mop = getMovingObjectPositionFromPlayer(world, player, contains == Blocks.air)
+		val mop = getMovingObjectPositionFromPlayer(world, player, empty)
 		if(mop == null)
 			return is
-		if(player.capabilities.isCreativeMode)
-			is
-		else
+		val processedIs =
 			mop.typeOfHit match {
 				case MovingObjectPosition.MovingObjectType.MISS | MovingObjectPosition.MovingObjectType.ENTITY =>
 					is
 				case MovingObjectPosition.MovingObjectType.BLOCK =>
-					if(contains == Blocks.air) {
+					if(empty) {
 						val resultItemStack = ScoopHandler.fillScoop(world, mop)
 						if(resultItemStack == null)
 							is
@@ -67,6 +65,10 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 							resultItemStack
 					}
 			}
+		if(player.capabilities.isCreativeMode)
+			is
+		else
+			processedIs
 	}
 
 	override def getMaxDamage =
