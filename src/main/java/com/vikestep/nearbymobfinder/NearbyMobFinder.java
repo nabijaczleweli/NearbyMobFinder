@@ -42,5 +42,7 @@ public class NearbyMobFinder {
 		GameRegistry.registerWorldGenerator(WorldGenLiquidCrystal$.MODULE$, 1);
 
 		proxy.registerRenderers();
+		proxy.registerOreDict();
+		proxy.registerRecipes();
 	}
 }

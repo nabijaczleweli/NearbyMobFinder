@@ -2,15 +2,15 @@ package com.nabijaczleweli.nearbymobfinder.items
 
 import net.minecraft.item.{ItemStack, Item}
 import com.nabijaczleweli.nearbymobfinder.creativetabs.CreativeTabNearbyMobFinder
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.util.{MathHelper, IIcon}
-import net.minecraft.creativetab.CreativeTabs
-import java.util
-import cpw.mods.fml.relauncher.{SideOnly, Side}
 import net.minecraft.client.renderer.texture.IIconRegister
 import com.vikestep.nearbymobfinder.reference.Reference
+import net.minecraft.creativetab.CreativeTabs
+import java.util
 
-class ItemPCB extends Item {
-	setUnlocalizedName("PCB")
+class ItemPlastic extends Item {
+	setUnlocalizedName("plastic")
 	setCreativeTab(CreativeTabNearbyMobFinder)
 	setHasSubtypes(true)
 
@@ -19,28 +19,28 @@ class ItemPCB extends Item {
 
 	@SideOnly(Side.CLIENT)
 	override def getIconFromDamage(idx: Int) =
-		ItemPCB icons MathHelper.clamp_int(idx, 0, ItemPCB.icons.length - 1)
+		ItemPlastic icons MathHelper.clamp_int(idx, 0, ItemPlastic.icons.length - 1)
 
 	@SideOnly(Side.CLIENT)
 	override def registerIcons(ir: IIconRegister) {
-		for(i <- 0 until ItemPCB.icons.length)
-			ItemPCB icons i = ir registerIcon Reference.MOD_ID + ":" + String.format(ItemPCB.subIconNames(i), "pcb_")
+		for(i <- 0 until ItemPlastic.icons.length)
+			ItemPlastic icons i = ir registerIcon Reference.MOD_ID + ":" + ItemPlastic.subIconNames(i)
 	}
 
 	override def getItemStackDisplayName(is: ItemStack) =
-		ItemPCB subDisplayName MathHelper.clamp_int(is.getItemDamage, 0, 15) format "PCB"
+		ItemPlastic subDisplayName MathHelper.clamp_int(is.getItemDamage, 0, ItemPlastic.subDisplayName.length)
 
 	@SideOnly(Side.CLIENT)
 	override def getSubItems(item: Item, tab: CreativeTabs, list: util.List[_]) {
-		if(item.isInstanceOf[ItemPCB])
-			for(i <- 0 until ItemPCB.icons.length)
+		if(item.isInstanceOf[ItemPlastic])
+			for(i <- 0 until ItemPlastic.icons.length)
 				list.asInstanceOf[util.List[ItemStack]] add new ItemStack(item, 1, i)
 	}
 }
 
-private object ItemPCB {
-	val subIconNames = Array[String]("%selements", "%snoelements", "%slcd", "lcd")
-	val subDisplayName = Array[String]("%s with elements", "%s without elements", "%s with LCD", "LCD")
+private object ItemPlastic {
+	val subIconNames = Array[String]("monomer", "polymer", "plastic")
+	val subDisplayName = Array[String]("Monomer", "Polymer", "Plastic")
 	@SideOnly(Side.CLIENT)
 	val icons = new Array[IIcon](subIconNames.length)
 }

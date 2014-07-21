@@ -7,4 +7,6 @@ public interface IProxy {
 	/** Needs to be called before {@link #registerItemsAndBlocks} and creation of any fluid blocks. */
 	public abstract void registerFluids();
 	public abstract void registerRenderers();
+	public abstract void registerOreDict();
+	public abstract void registerRecipes();
 }

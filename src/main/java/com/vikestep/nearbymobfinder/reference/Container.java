@@ -3,6 +3,7 @@ package com.vikestep.nearbymobfinder.reference;
 import com.nabijaczleweli.nearbymobfinder.blocks.BlockLiquidCrystalFluid;
 import com.nabijaczleweli.nearbymobfinder.items.ItemEntityMobScanner;
 import com.nabijaczleweli.nearbymobfinder.items.ItemPCB;
+import com.nabijaczleweli.nearbymobfinder.items.ItemPlastic;
 import com.nabijaczleweli.nearbymobfinder.items.ItemScoop;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.Fluid;
@@ -12,6 +13,7 @@ public class Container {
 	public static ItemPCB              pcb;
 	public static ItemScoop            scoopEmpty;
 	public static ItemScoop            scoopLiquidCrystal;
+	public static ItemPlastic          plastic;
 
 	public static Fluid liquidCrystalF;
 
@@ -26,6 +28,7 @@ public class Container {
 		mobScanner = new ItemEntityMobScanner();
 		pcb = new ItemPCB();
 		scoopEmpty = new ItemScoop(Blocks.air);
+		plastic = new ItemPlastic();
 
 		liquidCrystalB = new BlockLiquidCrystalFluid();
 

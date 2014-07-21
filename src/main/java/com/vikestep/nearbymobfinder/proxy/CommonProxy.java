@@ -1,6 +1,7 @@
 package com.vikestep.nearbymobfinder.proxy;
 
 import com.nabijaczleweli.nearbymobfinder.handlers.TickHandler;
+import com.vikestep.nearbymobfinder.handlers.CraftingEventsHandler;
 import com.vikestep.nearbymobfinder.handlers.PlayerBedEventHandler;
 import com.vikestep.nearbymobfinder.reference.Container;
 import com.vikestep.nearbymobfinder.reference.Reference;
@@ -11,12 +12,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class CommonProxy implements IProxy {
 	@Override
 	public void registerEventHandlers() {
 		FMLCommonHandler.instance().bus().register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerBedEventHandler());
+		FMLCommonHandler.instance().bus().register(new CraftingEventsHandler());
 	}
 
 	@Override
@@ -32,6 +36,7 @@ public class CommonProxy implements IProxy {
 		defaultRegisterItem(Container.pcb);
 		defaultRegisterItem(Container.scoopEmpty);
 		defaultRegisterItem(Container.scoopLiquidCrystal);
+		defaultRegisterItem(Container.plastic);
 
 		GameRegistry.registerBlock(Container.liquidCrystalB, Container.liquidCrystalB.getUnlocalizedName());
 
@@ -46,4 +51,21 @@ public class CommonProxy implements IProxy {
 
 	@Override
 	public void registerRenderers() {}
+
+	@Override
+	public final void registerOreDict() {
+		// Monomer, Polymer, Plastic
+		ItemStack is = new ItemStack(Container.plastic);
+		for(int i = 0; i < 3; ++i) {
+			OreDictionary.registerOre("material" + is.getDisplayName(), is);
+			is.setItemDamage(is.getItemDamage() + 1);
+		}
+	}
+
+	@Override
+	public void registerRecipes() {
+		GameRegistry.addSmelting(Container.scoopLiquidCrystal, new ItemStack(Container.plastic), 5);
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Container.plastic, 1, 2), "materialPolymer", "materialPolymer", "materialPolymer", "materialPolymer"));
+	}
 }
