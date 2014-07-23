@@ -1,18 +1,23 @@
 package com.vikestep.nearbymobfinder.proxy;
 
 import com.nabijaczleweli.nearbymobfinder.handlers.TickHandler;
+import com.nabijaczleweli.nearbymobfinder.items.ItemPCB;
+import com.nabijaczleweli.nearbymobfinder.items.ItemPlastic;
+import com.nabijaczleweli.nearbymobfinder.items.ItemScoop;
 import com.vikestep.nearbymobfinder.handlers.CraftingEventsHandler;
 import com.vikestep.nearbymobfinder.handlers.PlayerBedEventHandler;
 import com.vikestep.nearbymobfinder.reference.Container;
 import com.vikestep.nearbymobfinder.reference.Reference;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class CommonProxy implements IProxy {
@@ -56,9 +61,9 @@ public class CommonProxy implements IProxy {
 	public final void registerOreDict() {
 		// Monomer, Polymer, Plastic
 		ItemStack is = new ItemStack(Container.plastic);
-		for(int i = 0; i < 3; ++i) {
-			OreDictionary.registerOre("material" + is.getDisplayName(), is);
-			is.setItemDamage(is.getItemDamage() + 1);
+		for(int i = ItemPlastic.monomerDamage(); i < ItemPlastic.polymerDamage(); ++i){
+			is.setItemDamage(i);
+			OreDictionary.registerOre(ItemPlastic.oreDictName(i), is);
 		}
 	}
 
@@ -66,6 +71,15 @@ public class CommonProxy implements IProxy {
 	public void registerRecipes() {
 		GameRegistry.addSmelting(Container.scoopLiquidCrystal, new ItemStack(Container.plastic), 5);
 
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Container.plastic, 1, 2), "materialPolymer", "materialPolymer", "materialPolymer", "materialPolymer"));
+		ItemStack LCD = new ItemStack(Container.pcb, 1, ItemPCB.LCDDamage());
+		ItemStack emptyPCB = new ItemStack(Container.pcb, 1, ItemPCB.emptyPCBDamage());
+		ItemStack plastic = new ItemStack(Container.plastic, 1, ItemScoop.plasticDamage());
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(plastic, "materialPolymer", "materialPolymer", "materialPolymer", "materialPolymer"));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(LCD, "PPP", "PLP", "PGP", 'P', "materialPlastic", 'L', new ItemStack(Container.scoopLiquidCrystal), 'G', "nuggetGold"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Container.pcb, 1, ItemPCB.PCBLCDDamage()), " L ", "GPG", 'P', new ItemStack(Container.pcb, 1, ItemPCB.emptyPCBDamage()), 'L', LCD, 'G', "nuggetGold"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P', plastic, 'G', "paneGlass", 'N', "nuggetGold", 'p', Blocks.piston));
+		GameRegistry.addRecipe(new ShapedOreRecipe(emptyPCB, " G ", "PNP", " Gp", 'P', plastic, 'G', "paneGlass", 'N', "nuggetGold", 'p', Blocks.sticky_piston));
 	}
 }

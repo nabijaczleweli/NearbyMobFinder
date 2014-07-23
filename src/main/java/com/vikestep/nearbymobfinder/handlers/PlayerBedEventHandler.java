@@ -30,6 +30,8 @@ public class PlayerBedEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerClickOnBedEvent(PlayerInteractEvent event) {
+		if(!Settings.showMobsAtBed)
+			return;
 		if(event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
 			return;
 		if(event.useBlock == Event.Result.DENY)

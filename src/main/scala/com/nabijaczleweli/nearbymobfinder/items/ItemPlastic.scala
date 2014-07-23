@@ -5,9 +5,10 @@ import com.nabijaczleweli.nearbymobfinder.creativetabs.CreativeTabNearbyMobFinde
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.util.{MathHelper, IIcon}
 import net.minecraft.client.renderer.texture.IIconRegister
-import com.vikestep.nearbymobfinder.reference.Reference
+import com.vikestep.nearbymobfinder.reference.{Container, Reference}
 import net.minecraft.creativetab.CreativeTabs
 import java.util
+import net.minecraftforge.oredict.OreDictionary
 
 class ItemPlastic extends Item {
 	setUnlocalizedName("plastic")
@@ -38,9 +39,15 @@ class ItemPlastic extends Item {
 	}
 }
 
-private object ItemPlastic {
-	val subIconNames = Array[String]("monomer", "polymer", "plastic")
-	val subDisplayName = Array[String]("Monomer", "Polymer", "Plastic")
+object ItemPlastic {
+	private val subIconNames = Array[String]("monomer", "polymer", "plastic")
+	private val subDisplayName = Array[String]("Monomer", "Polymer", "Plastic")
 	@SideOnly(Side.CLIENT)
-	val icons = new Array[IIcon](subIconNames.length)
+	private val icons = new Array[IIcon](subIconNames.length)
+
+	val monomerDamage = 0
+	val polymerDamage = 1
+	val plasticDamage = 2
+	def oreDictName(dmg: Int) =
+		"material" + subDisplayName(MathHelper.clamp_int(dmg, 0, ItemPlastic.subDisplayName.length - 1))
 }

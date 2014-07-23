@@ -10,13 +10,15 @@ import java.io.File;
 public class Settings {
 	public static Configuration config;
 
-	public static boolean showMobsAtAnyTimeOfDay;
+	public static boolean    showMobsAtAnyTimeOfDay;
+	public static boolean    showMobsAtBed;
 	public static KeyBinding checkMobs;
 
 	public static void loadConfig(File configFile, Side side) {
 		config = new Configuration(configFile);
 		if(side == Side.CLIENT) {
 			showMobsAtAnyTimeOfDay = config.get("Client-side", "showMobsAllTime", false).getBoolean();
+			showMobsAtBed = config.get("Client-side", "showMobsAtBed", false).getBoolean();
 		}
 		WorldGenLiquidCrystal.setBaseGenerationLevel(config.get("World generation", "baseGenLiquidCrystalLvl", 30, "Base level of generation; 2..60; default: 30", 2, 60).getInt());
 		WorldGenLiquidCrystal.setBigVeinProbability(config.get("World generation", "propGenLiquidCrystalBigVein", 300, String.format("Probability of generating a big vein (1/x); 0..%d; default: 300", Integer.MAX_VALUE), 0, Integer.MAX_VALUE).getInt());

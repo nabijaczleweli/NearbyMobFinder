@@ -38,9 +38,14 @@ class ItemPCB extends Item {
 	}
 }
 
-private object ItemPCB {
-	val subIconNames = Array[String]("%selements", "%snoelements", "%slcd", "lcd")
-	val subDisplayName = Array[String]("%s with elements", "%s without elements", "%s with LCD", "LCD")
+object ItemPCB {
+	private val subIconNames = Array[String]("%selements", "%snoelements", "%slcd", "lcd")
+	private val subDisplayName = Array[String]("%s with elements", "%s without elements", "%s with LCD", "LCD")
 	@SideOnly(Side.CLIENT)
-	val icons = new Array[IIcon](subIconNames.length)
+	private val icons = new Array[IIcon](subIconNames.length)
+
+	val fullPCBDamage  = 0
+	val emptyPCBDamage = 1
+	val PCBLCDDamage   = 2
+	val LCDDamage      = 3
 }

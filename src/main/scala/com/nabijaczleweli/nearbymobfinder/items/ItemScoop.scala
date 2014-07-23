@@ -74,3 +74,9 @@ class ItemScoop(val contains: Block) extends ItemBucket(contains) {
 	override def getMaxDamage =
 		0
 }
+
+object ItemScoop {
+	val monomerDamage = 0
+	val polymerDamage = 1
+	val plasticDamage = 2
+}

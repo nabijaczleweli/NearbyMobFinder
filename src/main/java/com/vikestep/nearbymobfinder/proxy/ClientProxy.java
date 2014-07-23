@@ -1,11 +1,14 @@
 package com.vikestep.nearbymobfinder.proxy;
 
+import com.nabijaczleweli.nearbymobfinder.handlers.NearbyMobFinderGUIHandler$;
 import com.nabijaczleweli.nearbymobfinder.items.ItemScoop;
 import com.nabijaczleweli.nearbymobfinder.render.ItemRendererScoop$;
 import com.vikestep.nearbymobfinder.handlers.PlayerBedEventHandler;
+import com.vikestep.nearbymobfinder.reference.Reference;
 import com.vikestep.nearbymobfinder.reference.Settings;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraftforge.client.MinecraftForgeClient;
 import scala.collection.mutable.Queue;
 
@@ -26,5 +29,6 @@ public class ClientProxy extends CommonProxy {
 
 		while(scoopRender.size() > 0)
 			MinecraftForgeClient.registerItemRenderer(scoopRender.dequeue(), ItemRendererScoop$.MODULE$);
+		NetworkRegistry.INSTANCE.registerGuiHandler(Reference.MOD_ID, NearbyMobFinderGUIHandler$.MODULE$);
 	}
 }

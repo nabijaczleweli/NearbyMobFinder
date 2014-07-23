@@ -61,7 +61,7 @@ object ScoopHandler {
 		val scoopContains = scoopItem.contains.asInstanceOf[BlockFluidBase]
 		val addMeta = (modX: Int, modY: Int, modZ: Int) => {
 			val metadata = world.getBlockMetadata(pos.blockX + modX, pos.blockY + modY, pos.blockZ + modZ)
-			if(metadata == 15)
+			if(metadata == 7)
 				null
 			else {
 				world.setBlockMetadataWithNotify(pos.blockX + modX, pos.blockY + modY, pos.blockZ + modZ, metadata + 1, 1 | 2)
