@@ -18,13 +18,20 @@ buildscript {
 apply plugin: 'scala'
 apply plugin: 'forge'
 
-version = "1.7.10-1.0.1"
-group= "com.vikestep.nearbymobfinder" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "NearbyMobFinder"
+if(System.getenv().BUILD_NUMBER != null)
+	build_number = System.getenv().BUILD_NUMBER
+
+version = "${mc_version}-${build_number}"
+group = "com.nabijaczleweli.minecrasmer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "MineCrASMer"
 
 minecraft {
-    version = "1.7.10-10.13.0.1187"
+    version = "${mc_version}-10.13.0.${forge_build}"
     assetDir = "eclipse/assets"
+
+    replaceIn "Reference.scala"
+    replace "@MODNAME@", archivesBaseName
+    replace "@MODVER@", project.version
 }
 
 dependencies {
@@ -43,8 +50,7 @@ dependencies {
 
 }
 
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -52,7 +58,7 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
@@ -61,4 +67,10 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+def builtFile = file("build/libs/${archivesBaseName}-${version}.jar")
+
+artifacts {
+	archives builtFile
 }
