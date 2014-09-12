@@ -69,8 +69,11 @@ processResources {
     }
 }
 
-def builtFile = file("build/libs/${archivesBaseName}-${version}.jar")
+task devJar(type: Jar) {
+	from sourceSets.main.output
+	classifier = 'dev'
+}
 
 artifacts {
-	archives builtFile
+	archives devJar
 }
